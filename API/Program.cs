@@ -7,7 +7,8 @@ namespace API
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            yeet();
+            CreateHostBuilder(args).Build().Run()
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
