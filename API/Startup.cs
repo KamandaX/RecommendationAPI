@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+using API.Models;
+using MySql.Data.MySqlClient;
 
 namespace API
 {
@@ -21,15 +24,27 @@ namespace API
         {
             services.AddSingleton<Iserializer, JsonSerializer>();
             services.AddSingleton<IErrorFormatter, JsonErrorFormatter>();
+            //services.AddDbContext<ApiContext>(opt => opt.UseInMemoryDatabase("API"));
+            var builder = new MySqlConnectionStringBuilder(Configuration.GetConnectionString("DefaultConnection"));
+            builder.Server = Configuration["Server"];
+            builder.Database = Configuration["Database"];
+            builder.UserID = Configuration["Uid"];
+            builder.Password = Configuration["DbPassword"];
+            services.AddDbContext<ApiContext>(opt =>
+                opt.UseMySql(builder.ConnectionString));
             services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApiContext context)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+
+                var seed = new SeedData(context);
+                seed.Seed();
             }
 
             //app.UseHttpsRedirection();
