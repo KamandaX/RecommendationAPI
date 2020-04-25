@@ -42,7 +42,6 @@ namespace API
             {
                 app.UseDeveloperExceptionPage();
 
-
                 var seed = new SeedData(context);
                 seed.Seed();
             }
