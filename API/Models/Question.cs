@@ -1,9 +1,6 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace API.Models
 {
@@ -19,7 +16,7 @@ namespace API.Models
         public int ID { get; set; }
 
         [Required]
-        [JsonProperty("question_content")] 
+        [JsonProperty("question_content")]
         public string QuestionContent { get; set; }
 
         [Required]
