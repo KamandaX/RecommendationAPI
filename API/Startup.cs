@@ -25,11 +25,13 @@ namespace API
             services.AddSingleton<Iserializer, JsonSerializer>();
             services.AddSingleton<IErrorFormatter, JsonErrorFormatter>();
             //services.AddDbContext<ApiContext>(opt => opt.UseInMemoryDatabase("API"));
-            var builder = new MySqlConnectionStringBuilder(Configuration.GetConnectionString("DefaultConnection"));
-            builder.Server = Configuration["Server"];
-            builder.Database = Configuration["Database"];
-            builder.UserID = Configuration["Uid"];
-            builder.Password = Configuration["DbPassword"];
+            var builder = new MySqlConnectionStringBuilder(Configuration.GetConnectionString("DefaultConnection"))
+            {
+                Server = Configuration["Server"],
+                Database = Configuration["Database"],
+                UserID = Configuration["Uid"],
+                Password = Configuration["DbPassword"]
+            };
             services.AddDbContext<ApiContext>(opt =>
                 opt.UseMySql(builder.ConnectionString));
             services.AddControllers();
