@@ -35,16 +35,6 @@ namespace API
             services.AddDbContext<ApiContext>(opt =>
                 opt.UseMySql(builder.ConnectionString));
             services.AddControllers();
-
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowAll", p =>
-                {
-                    p.AllowAnyOrigin()
-                    .AllowAnyHeader()
-                    .AllowAnyMethod();
-                });
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,8 +49,6 @@ namespace API
             }
 
             //app.UseHttpsRedirection();
-
-            app.UseCors("AllowAll");
 
             app.UseRouting();
 
