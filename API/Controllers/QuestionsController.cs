@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using API.Models;
+﻿using API.Models;
 using API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading.Tasks;
 
 namespace API.Controllers
 {
@@ -27,7 +27,7 @@ namespace API.Controllers
             {
                 var question = id == 0 ?
                     await Context.Questions.Include(i => i.QuestionOptions).FirstOrDefaultAsync().ConfigureAwait(false) :
-                    await Context.Questions.Include(i => i.QuestionOptions).SingleOrDefaultAsync(i => i.ID == id).ConfigureAwait(false);   
+                    await Context.Questions.Include(i => i.QuestionOptions).SingleOrDefaultAsync(i => i.ID == id).ConfigureAwait(false);
 
                 if (question == default(Question))
                     return ErrorFormatter.FormatError(500, "Json Error", "Not Found");

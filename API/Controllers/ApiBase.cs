@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using API.Models;
+﻿using API.Models;
 using API.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace API.Controllers
 {
