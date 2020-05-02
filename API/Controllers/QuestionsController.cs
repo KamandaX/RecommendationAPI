@@ -30,7 +30,7 @@ namespace API.Controllers
                     await Context.Questions.Include(i => i.QuestionOptions).SingleOrDefaultAsync(i => i.ID == id).ConfigureAwait(false);
 
                 if (question == default(Question))
-                    return ErrorFormatter.FormatError(500, "Json Error", "Not Found");
+                    return ErrorFormatter.FormatError(404, "Json Error", "Not Found");
 
                 string json = Serializer.Encode(question);
                 return json;
