@@ -8,7 +8,8 @@ namespace API.Services
         {
             var settings = new JsonSerializerSettings
             {
-                NullValueHandling = NullValueHandling.Ignore
+                NullValueHandling = NullValueHandling.Ignore,
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             };
             return JsonConvert.SerializeObject(obj, settings);
         }
