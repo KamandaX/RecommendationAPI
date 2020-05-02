@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.Models
 {
@@ -23,6 +24,11 @@ namespace API.Models
         [JsonProperty("aspect")]
         public Aspect Aspect { get; set; }
 
+        [JsonProperty("answers")]
+        [InverseProperty(nameof(QuestionOption.Question))]
         public virtual ICollection<QuestionOption> QuestionOptions { get; set; }
+
+        [InverseProperty(nameof(QuestionOption.NextQuestion))]
+        public virtual ICollection<QuestionOption> LinkedQuestionOptions { get; set; }
     }
 }
