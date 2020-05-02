@@ -9,8 +9,8 @@ namespace API.Controllers
     [ApiController]
     public class QuizController : ApiControllerBase
     {
-        public QuizController(Iserializer serializer, IErrorFormatter errorFormatter) :
-            base(serializer, errorFormatter) { }
+        public QuizController(ApiContext context, Iserializer serializer, IErrorFormatter errorFormatter) :
+            base(context, serializer, errorFormatter) { }
 
         [HttpGet]
         public string GetQuizMessage()
