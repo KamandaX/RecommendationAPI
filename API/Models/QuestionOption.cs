@@ -25,5 +25,9 @@ namespace API.Models
         [Required]
         [JsonProperty("question_multiplier")]
         public float QuestionMultiplier { get; set; }
+
+        [JsonProperty("next_question_id")]
+        public int? NextQuestionID { get; set; }
+        public virtual Question NextQuestion { get; set; }
     }
 }

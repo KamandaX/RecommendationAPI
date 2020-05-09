@@ -14,13 +14,13 @@
                 new Question
                 {
                     ID = 2,
-                    QuestionContent = "Do you want to use you phone for photography?",
+                    QuestionContent = "How much do you plan to use your phone for photography?",
                     Aspect = Aspect.MainCamera
                 },
                 new Question
                 {
                     ID = 3,
-                    QuestionContent = "Do you want to play video games on your phone?",
+                    QuestionContent = "How often do you plan to play video games on your phone?",
                     Aspect = Aspect.ProcessingPower
                 },
                 new Question
@@ -32,8 +32,32 @@
                 new Question
                 {
                     ID = 5,
-                    QuestionContent = "Are you planning to stroe lots of files?",
+                    QuestionContent = "What files will you store on your phone?",
                     Aspect = Aspect.Storage
+                },
+                new Question
+                {
+                    ID = 6,
+                    QuestionContent = "Will you take photos in low lighting?",
+                    Aspect = Aspect.MainCamera
+                },
+                new Question
+                {
+                    ID = 7,
+                    QuestionContent = "Do you want the camera to be able to zoom in a lot?",
+                    Aspect = Aspect.MainCamera
+                },
+                new Question
+                {
+                    ID = 8,
+                    QuestionContent = "Do you need to take photos quickly?",
+                    Aspect = Aspect.MainCamera
+                },
+                new Question
+                {
+                    ID = 9,
+                    QuestionContent = "How often do you take selfies?",
+                    Aspect = Aspect.SelfieCamera
                 }
             );
         }

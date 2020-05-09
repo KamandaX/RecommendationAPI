@@ -1,20 +1,25 @@
-﻿using System.Linq;
+﻿using API.Models;
 using API.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace API.Controllers
 {
     public class ApiControllerBase : ControllerBase
     {
-        protected readonly Iserializer Serializer;
-        protected readonly IErrorFormatter ErrorFormatter;
-
         private const string ApiHeader = "X-Api-Request";
 
-        public ApiControllerBase(Iserializer serializer, IErrorFormatter errorFormatter)
+        protected ApiContext Context { get; }
+
+        protected IErrorFormatter ErrorFormatter { get; }
+
+        protected Iserializer Serializer { get; }
+
+        public ApiControllerBase(ApiContext context, Iserializer serializer, IErrorFormatter errorFormatter)
         {
             Serializer = serializer;
             ErrorFormatter = errorFormatter;
+            Context = context;
         }
 
         protected bool IsValidApiRequest()

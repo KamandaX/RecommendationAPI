@@ -1,7 +1,7 @@
-﻿using System;
-using API.Models;
+﻿using API.Models;
 using API.Services;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace API.Controllers
 {
@@ -9,8 +9,9 @@ namespace API.Controllers
     [ApiController]
     public class QuizController : ApiControllerBase
     {
-        public QuizController(Iserializer serializer, IErrorFormatter errorFormatter) :
-            base(serializer, errorFormatter) { }
+        public QuizController(ApiContext context, Iserializer serializer, IErrorFormatter errorFormatter) :
+            base(context, serializer, errorFormatter)
+        { }
 
         [HttpGet]
         public string GetQuizMessage()
@@ -20,7 +21,7 @@ namespace API.Controllers
                 return ApiBadRequest();
             }
 
-            var quiz = new Quiz {Data = new Data {Message = "Hello from QuizAPI!"}};
+            var quiz = new Quiz { Data = new Data { Message = "Hello from QuizAPI!" } };
             try
             {
                 string json = Serializer.Encode(quiz);
