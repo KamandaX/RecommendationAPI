@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace API.Controllers
 {
     [Route("api/v1/[controller]")]
-    [Produces("application/json")]
+    [Produces(ApiContentType)]
     [ApiController]
     public class QuestionsController : ApiControllerBase
     {
@@ -34,12 +34,11 @@ namespace API.Controllers
                 if (question == default(Question))
                     return ApiNotFound("Question does not exist!");
 
-                string json = Serializer.Encode(question);
-                return json;
+                return Ok(question);
             }
             catch (Exception ex)
             {
-                return InternalServerError("Json error!", ex.Message);
+                return InternalServerError("Error in retrieving a question!", ex.Message);
             }
         }
     }

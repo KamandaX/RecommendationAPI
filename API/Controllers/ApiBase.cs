@@ -8,6 +8,8 @@ namespace API.Controllers
     public class ApiControllerBase : ControllerBase
     {
         private const string ApiHeader = "X-Api-Request";
+        
+        protected const string ApiContentType = "application/json";
 
         protected ApiContext Context { get; }
 
@@ -35,18 +37,33 @@ namespace API.Controllers
 
         protected BadRequestObjectResult ApiBadRequest(string message)
         {
-            return BadRequest(ErrorFormatter.FormatError(400, message));
+            var error = new Error
+            {
+                Type = 400,
+                Title = message
+            };
+            return BadRequest(error);
         }
 
         protected NotFoundObjectResult ApiNotFound(string message)
         {
-            return NotFound(ErrorFormatter.FormatError(404, message));
+            var error = new Error
+            {
+                Type = 404,
+                Title = message
+            };
+            return NotFound(error);
         }
 
         protected ObjectResult InternalServerError(string message, string details = null)
         {
-            string errorObject = ErrorFormatter.FormatError(500, message, details);
-            return StatusCode(500, errorObject);
+            var error = new Error
+            {
+                Type = 500,
+                Title = message,
+                Details = details
+            };
+            return StatusCode(500, error);
         }
     }
 }
