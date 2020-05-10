@@ -33,9 +33,20 @@ namespace API.Controllers
             return headers == "true";
         }
 
-        protected string ApiBadRequest()
+        protected BadRequestObjectResult ApiBadRequest(string message)
         {
-            return ErrorFormatter.FormatError(400, "Invalid Headers");
+            return BadRequest(ErrorFormatter.FormatError(400, message));
+        }
+
+        protected NotFoundObjectResult ApiNotFound(string message)
+        {
+            return NotFound(ErrorFormatter.FormatError(404, message));
+        }
+
+        protected ObjectResult InternalServerError(string message, string details = null)
+        {
+            string errorObject = ErrorFormatter.FormatError(500, message, details);
+            return StatusCode(500, errorObject);
         }
     }
 }

@@ -14,22 +14,22 @@ namespace API.Controllers
         { }
 
         [HttpGet]
-        public string GetQuizMessage()
+        public ActionResult<string> GetQuizMessage()
         {
             if (!IsValidApiRequest())
             {
-                return ApiBadRequest();
+                return ApiBadRequest("Invalid Headers!");
             }
 
             var quiz = new Quiz { Data = new Data { Message = "Hello from QuizAPI!" } };
             try
             {
                 string json = Serializer.Encode(quiz);
-                return json;
+                return Ok(json);
             }
             catch (Exception ex)
             {
-                return ErrorFormatter.FormatError(500, "Json Error", ex.Message);
+                return InternalServerError("Json error!",ex.Message);
             }
         }
     }
