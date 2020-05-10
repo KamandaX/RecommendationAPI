@@ -7,6 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
+using JsonSerializer = API.Services.JsonSerializer;
 
 namespace API
 {
@@ -34,7 +36,11 @@ namespace API
             };
             services.AddDbContext<ApiContext>(opt =>
                 opt.UseMySql(builder.ConnectionString));
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(opt =>
+                {
+                    opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    //opt.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                });
 
             services.AddCors(options =>
             {
