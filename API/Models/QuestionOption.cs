@@ -6,24 +6,24 @@ namespace API.Models
     public class QuestionOption
     {
         [Key]
-        [JsonProperty("id")]
+        [JsonIgnore]
         public int ID { get; set; }
 
         [Required]
-        [JsonProperty("question_id")]
+        [JsonIgnore]
         public int QuestionID { get; set; }
         public virtual Question Question { get; set; }
 
         [Required]
-        [JsonProperty("option_content")]
+        [JsonProperty("answer")]
         public string OptionContent { get; set; }
 
         [DisplayFormat(NullDisplayText = "")]
-        [JsonProperty("picture_link")]
+        [JsonProperty("img_url")]
         public string? PictureLink { get; set; }
 
         [Required]
-        [JsonProperty("question_multiplier")]
+        [JsonIgnore]
         public float QuestionMultiplier { get; set; }
 
         [JsonProperty("next_question_id")]

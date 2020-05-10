@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace API.Controllers
 {
     [Route("api/v1/[controller]")]
+    [Produces("application/json")]
     [ApiController]
     public class QuestionsController : ApiControllerBase
     {
