@@ -13,15 +13,15 @@ namespace API.Models
     public class Question
     {
         [Key]
-        [JsonProperty("id")]
+        [JsonIgnore]
         public int ID { get; set; }
 
         [Required]
-        [JsonProperty("question_content")]
+        [JsonProperty("title")]
         public string QuestionContent { get; set; }
 
         [Required]
-        [JsonProperty("aspect")]
+        [JsonIgnore]
         public Aspect Aspect { get; set; }
 
         [JsonProperty("answers")]
