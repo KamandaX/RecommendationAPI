@@ -28,6 +28,7 @@ namespace API.Models
         [InverseProperty(nameof(QuestionOption.Question))]
         public virtual ICollection<QuestionOption> QuestionOptions { get; set; }
 
+        [JsonIgnore]
         [InverseProperty(nameof(QuestionOption.NextQuestion))]
         public virtual ICollection<QuestionOption> LinkedQuestionOptions { get; set; }
     }
