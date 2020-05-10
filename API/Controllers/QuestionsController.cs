@@ -13,7 +13,8 @@ namespace API.Controllers
     public class QuestionsController : ApiControllerBase
     {
         public QuestionsController(ApiContext context, Iserializer serializer, IErrorFormatter errorFormatter) :
-            base(context, serializer, errorFormatter) { }
+            base(context, serializer, errorFormatter)
+        { }
 
         [HttpGet("{id=0}")]
         public async Task<ActionResult<string>> GetQuestion(int id)
@@ -25,7 +26,7 @@ namespace API.Controllers
 
             try
             {
-                var question = id == 0 ? 
+                var question = id == 0 ?
                     await Context.Questions.Include(i => i.QuestionOptions).FirstOrDefaultAsync()
                         .ConfigureAwait(false) :
                     await Context.Questions.Include(i => i.QuestionOptions).SingleOrDefaultAsync(i => i.ID == id)
@@ -33,6 +34,12 @@ namespace API.Controllers
 
                 if (question == default(Question))
                     return ApiNotFound("Question does not exist!");
+
+                foreach (QuestionOption questionOption in question.QuestionOptions)
+                {
+                    if (string.IsNullOrEmpty(questionOption.PictureLink))
+                        questionOption.PictureLink = Environment.GetEnvironmentVariable("ASPNETCORE_IMGFALLBACKURL");
+                }
 
                 return Ok(question);
             }
