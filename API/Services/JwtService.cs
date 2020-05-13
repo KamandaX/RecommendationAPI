@@ -11,10 +11,12 @@ namespace API.Services
     public class JwtService
     {
         private readonly string _secret;
+        private readonly int _expirationDays;
 
         public JwtService(IConfiguration config)
         {
             _secret = config.GetSection("Jwt").GetSection("SecretKey").Value;
+            _expirationDays = int.Parse(config.GetSection("Jwt").GetSection("ExpirationDays").Value);
         }
 
         public string GenerateSecurityToken(User user)
