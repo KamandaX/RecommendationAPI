@@ -1,3 +1,4 @@
+using API.Middleware;
 using API.Models;
 using API.Services;
 using Microsoft.AspNetCore.Builder;
@@ -51,6 +52,8 @@ namespace API
                     .AllowAnyMethod();
                 });
             });
+
+            services.AddTokenAuthentication(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,6 +73,7 @@ namespace API
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
