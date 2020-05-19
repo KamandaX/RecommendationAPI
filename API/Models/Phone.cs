@@ -63,6 +63,9 @@ namespace API.Models
         [JsonProperty("battery_size")]
         public int BatterySize { get; set; }
 
+        [JsonProperty("image_url")]
+        public string ImageURL { get; set; }
+
         public virtual ICollection<Camera> Cameras { get; set; }
 
         public virtual Score Score { get; set; }
