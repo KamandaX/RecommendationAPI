@@ -65,5 +65,16 @@ namespace API.Controllers
             };
             return StatusCode(500, error);
         }
+
+        protected ObjectResult NotImplementedError(string message, string details = null)
+        {
+            var error = new Error
+            {
+                Type = 501,
+                Title = message,
+                Details = details
+            };
+            return StatusCode(501, error);
+        }
     }
 }
