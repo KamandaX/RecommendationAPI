@@ -14,5 +14,6 @@ namespace API.Models
         public DbSet<Question> Questions { get; set; }
         public DbSet<QuestionOption> QuestionOptions { get; set; }
         public DbSet<Score> Scores { get; set; }
+        public DbSet<UserDTO> Users { get; set; }
     }
 }
