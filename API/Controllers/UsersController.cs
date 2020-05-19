@@ -1,5 +1,4 @@
-﻿using System;
-using API.Models;
+﻿using API.Models;
 using API.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,7 +13,7 @@ namespace API.Controllers
             base(context, serializer, errorFormatter) { }
 
         [HttpPost]
-        public IActionResult Signup(User user)
+        public IActionResult Signup(UserDTO user)
         {
             if (!IsValidApiRequest())
             {
@@ -25,7 +24,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(User user)
+        public IActionResult Login(UserDTO user)
         {
             if (!IsValidApiRequest())
             {

@@ -1,9 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 
 namespace API.Models
 {
-    public class User
+    public class UserDTO
     {
         [Key] 
         [JsonProperty("id")] 
@@ -19,5 +20,9 @@ namespace API.Models
         [Required]
         [JsonProperty("password")] 
         public string Password { get; set; }
+
+        [Required]
+        [JsonProperty("registered_at")]
+        public DateTime RegisteredAt { get; set; }
     }
 }
