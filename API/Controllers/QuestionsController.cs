@@ -17,7 +17,7 @@ namespace API.Controllers
         { }
 
         [HttpGet("{id=0}")]
-        public async Task<ActionResult<string>> GetQuestion(int id)
+        public async Task<ActionResult<GetQuestionDTO>> GetQuestion(int id)
         {
             if (!IsValidApiRequest())
             {
@@ -26,22 +26,16 @@ namespace API.Controllers
 
             try
             {
-                var question = id == 0 ?
-                    await Context.Questions.Include(i => i.QuestionOptions).FirstOrDefaultAsync()
-                        .ConfigureAwait(false) :
-                    await Context.Questions.Include(i => i.QuestionOptions).SingleOrDefaultAsync(i => i.ID == id)
-                        .ConfigureAwait(false);
+                var question = await Context.Questions.Include(i => i.QuestionOptions)
+                    .SingleOrDefaultAsync(i => i.ID == id)
+                    .ConfigureAwait(false);
+                var questionDto = new GetQuestionDTO(question);
 
-                if (question == default(Question))
-                    return ApiNotFound("Question does not exist!");
-
-                foreach (QuestionOption questionOption in question.QuestionOptions)
-                {
-                    if (string.IsNullOrEmpty(questionOption.PictureLink))
-                        questionOption.PictureLink = Environment.GetEnvironmentVariable("ASPNETCORE_IMGFALLBACKURL");
-                }
-
-                return Ok(question);
+                return Ok(questionDto);
+            }
+            catch (NullReferenceException)
+            {
+                return ApiNotFound($"Question with ID {id} does not exist!");
             }
             catch (Exception ex)
             {

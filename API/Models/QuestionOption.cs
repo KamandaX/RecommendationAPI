@@ -20,7 +20,7 @@ namespace API.Models
 
         [DisplayFormat(NullDisplayText = "")]
         [JsonProperty("img_url")]
-        public string? PictureLink { get; set; }
+        public string PictureLink { get; set; }
 
         [Required]
         [JsonIgnore]
