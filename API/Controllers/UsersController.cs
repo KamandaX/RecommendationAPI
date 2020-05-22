@@ -34,7 +34,7 @@ namespace API.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Register(RegisterModel model)
+        public async Task<IActionResult> Signup(RegisterModel model)
         {
             if (!IsValidApiRequest())
             {
@@ -47,7 +47,14 @@ namespace API.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    return Ok();
+                    return Created("", new
+                    {
+                        token = _jwt.GenerateSecurityToken(new User()
+                        {
+                            Username = user.UserName,
+                            Email = user.Email
+                        })
+                    });
                 }
 
                 return BadRequest(result);
@@ -74,11 +81,14 @@ namespace API.Controllers
                 var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    return Ok(_jwt.GenerateSecurityToken(new User()
+                    return Ok(new
                     {
-                        Username = user.UserName,
-                        Email = user.Email
-                    }));
+                        token = _jwt.GenerateSecurityToken(new User()
+                        {
+                            Username = user.UserName,
+                            Email = user.Email
+                        })
+                    });
                 }
 
                 if (result.IsLockedOut)
