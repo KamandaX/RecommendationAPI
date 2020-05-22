@@ -4,6 +4,7 @@ using API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 using JsonSerializer = API.Services.JsonSerializer;
 
 namespace API
@@ -80,6 +82,20 @@ namespace API
             });
 
             services.AddTokenAuthentication(Configuration);
+
+            services.AddMvc().
+                ConfigureApiBehaviorOptions(options =>
+                {
+                    options.InvalidModelStateResponseFactory = context =>
+                    {
+                        var modelState = context.ModelState.Values.First();
+                        return new BadRequestObjectResult(new { 
+                            type = 400, 
+                            title = "Validation failed!", 
+                            details = modelState.Errors.First().ErrorMessage 
+                        });
+                    };
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
