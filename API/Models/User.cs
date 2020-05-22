@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
-
-namespace API.Models
+﻿namespace API.Models
 {
     public class User
     {

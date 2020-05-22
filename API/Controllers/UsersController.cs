@@ -41,7 +41,7 @@ namespace API.Controllers
 
             var user = new UserDTO { UserName = model.Username ?? model.Email, Email = model.Email };
 
-            foreach(var validator in _userManager.PasswordValidators)
+            foreach (var validator in _userManager.PasswordValidators)
             {
                 var res = await validator.ValidateAsync(_userManager, null, model.Password);
                 if (!res.Succeeded)

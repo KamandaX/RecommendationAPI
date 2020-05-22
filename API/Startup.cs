@@ -89,10 +89,11 @@ namespace API
                     options.InvalidModelStateResponseFactory = context =>
                     {
                         var modelState = context.ModelState.Values.First();
-                        return new BadRequestObjectResult(new { 
-                            type = 400, 
-                            title = "Validation failed!", 
-                            details = modelState.Errors.First().ErrorMessage 
+                        return new BadRequestObjectResult(new
+                        {
+                            type = 400,
+                            title = "Validation failed!",
+                            details = modelState.Errors.First().ErrorMessage
                         });
                     };
                 });
