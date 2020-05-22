@@ -55,5 +55,39 @@ namespace API.Controllers
 
             return BadRequest(ModelState);
         }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login(LoginModel model)
+        {
+            if (!IsValidApiRequest())
+            {
+                return ApiBadRequest("Invalid headers!");
+            }
+
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user == null)
+                    return ApiBadRequest("User does not exist.");
+
+                var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
+                if (result.Succeeded)
+                {
+                    return Ok(_jwt.GenerateSecurityToken(new User()
+                    {
+                        Username = user.UserName,
+                        Email = user.Email
+                    }));
+                }
+
+                if (result.IsLockedOut)
+                {
+                    return ApiBadRequest("User account locked out.");
+                }
+            }
+
+            return BadRequest(ModelState);
+        }
     }
 }
