@@ -34,7 +34,7 @@ namespace API.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Signup(RegisterModel model)
+        public async Task<IActionResult> Signup(AuthDTO model)
         {
             if (!IsValidApiRequest())
             {
@@ -65,7 +65,7 @@ namespace API.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(LoginModel model)
+        public async Task<IActionResult> Login(AuthDTO model)
         {
             if (!IsValidApiRequest())
             {
@@ -78,7 +78,7 @@ namespace API.Controllers
                 if (user == null)
                     return ApiBadRequest("User does not exist.");
 
-                var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, false, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     return Ok(new

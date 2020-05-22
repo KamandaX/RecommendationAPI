@@ -2,7 +2,7 @@
 
 namespace API.Models.AccountModels
 {
-    public class RegisterModel
+    public class AuthDTO
     {
         [Required]
         [EmailAddress]
