@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,22 +12,17 @@ namespace API.Models
     public class Question
     {
         [Key]
-        [JsonIgnore]
         public int ID { get; set; }
 
         [Required]
-        [JsonProperty("title")]
         public string QuestionContent { get; set; }
 
         [Required]
-        [JsonIgnore]
         public Aspect Aspect { get; set; }
 
-        [JsonProperty("answers")]
         [InverseProperty(nameof(QuestionOption.Question))]
         public virtual ICollection<QuestionOption> QuestionOptions { get; set; }
 
-        [JsonIgnore]
         [InverseProperty(nameof(QuestionOption.NextQuestion))]
         public virtual ICollection<QuestionOption> LinkedQuestionOptions { get; set; }
     }
