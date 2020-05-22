@@ -11,17 +11,17 @@ namespace API.Models
         [JsonProperty("aspect")] 
         public int Aspect { get; set; }
 
-        public List<AnswerDTO> Answers;
+        public List<QuestionOptionDTO> Answers;
 
         public GetQuestionDTO(Question question)
         {
             Title = question.QuestionContent;
             Aspect = (int) question.Aspect;
 
-            Answers = new List<AnswerDTO>();
+            Answers = new List<QuestionOptionDTO>();
             foreach (var option in question.QuestionOptions)
             {
-                Answers.Add(new AnswerDTO(option));
+                Answers.Add(new QuestionOptionDTO(option));
             }
         }
     }

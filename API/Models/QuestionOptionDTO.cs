@@ -1,23 +1,23 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace API.Models
 {
-    public class AnswerDTO
+    public class QuestionOptionDTO
     {
-        [JsonProperty("answer")] 
+        [JsonProperty("answer")]
         public string AnswerText { get; }
 
-        [JsonProperty("img_url")] 
+        [JsonProperty("img_url")]
         public string ImgUrl { get; }
 
-        [JsonProperty("next_question_id")] 
+        [JsonProperty("next_question_id")]
         public int? NextQuestionId { get; }
 
-        [JsonProperty("multiplier")] 
+        [JsonProperty("multiplier")]
         public float Multiplier { get; }
 
-        public AnswerDTO(QuestionOption answer)
+        public QuestionOptionDTO(QuestionOption answer)
         {
             AnswerText = answer.OptionContent;
             ImgUrl = answer.PictureLink ?? Environment.GetEnvironmentVariable("ASPNETCORE_IMGFALLBACKURL");
