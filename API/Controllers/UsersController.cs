@@ -41,6 +41,14 @@ namespace API.Controllers
                 return ApiBadRequest("Invalid headers!");
 
             var user = new UserDTO { UserName = model.Username ?? model.Email, Email = model.Email };
+
+            foreach(var validator in _userManager.PasswordValidators)
+            {
+                var res = await validator.ValidateAsync(_userManager, null, model.Password);
+                if (!res.Succeeded)
+                    return ApiBadRequest(res.Errors.First().Description);
+            }
+
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
                 return ApiBadRequest(result.Errors.First().Description);
