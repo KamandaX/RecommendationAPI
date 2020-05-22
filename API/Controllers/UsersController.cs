@@ -1,5 +1,4 @@
 ﻿using API.Models;
-using API.Models.AccountModels;
 using API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
