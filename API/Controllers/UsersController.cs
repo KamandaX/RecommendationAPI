@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace API.Controllers
@@ -37,30 +38,22 @@ namespace API.Controllers
         public async Task<IActionResult> Signup(AuthDTO model)
         {
             if (!IsValidApiRequest())
-            {
                 return ApiBadRequest("Invalid headers!");
-            }
 
-            if (ModelState.IsValid)
+            var user = new UserDTO { UserName = model.Username ?? model.Email, Email = model.Email };
+            var result = await _userManager.CreateAsync(user, model.Password);
+            if (!result.Succeeded)
+                return ApiBadRequest(result.Errors.First().Description);
+
+            return Created("", new
             {
-                var user = new UserDTO { UserName = model.Username ?? model.Email, Email = model.Email };
-                var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                token = _jwt.GenerateSecurityToken(new User()
                 {
-                    return Created("", new
-                    {
-                        token = _jwt.GenerateSecurityToken(new User()
-                        {
-                            Username = user.UserName,
-                            Email = user.Email
-                        })
-                    });
-                }
+                    Username = user.UserName,
+                    Email = user.Email
+                })
+            });
 
-                return BadRequest(result);
-            }
-
-            return BadRequest(ModelState);
         }
 
         [HttpPost]
@@ -68,36 +61,27 @@ namespace API.Controllers
         public async Task<IActionResult> Login(AuthDTO model)
         {
             if (!IsValidApiRequest())
-            {
                 return ApiBadRequest("Invalid headers!");
-            }
 
-            if (ModelState.IsValid)
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+                return ApiBadRequest("User does not exist.");
+
+            var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, false, lockoutOnFailure: false);
+            if (result.IsLockedOut)
+                return ApiBadRequest("User account locked out.");
+
+            if (!result.Succeeded)
+                return ApiBadRequest("Invalid username or password.");
+
+            return Ok(new
             {
-                var user = await _userManager.FindByEmailAsync(model.Email);
-                if (user == null)
-                    return ApiBadRequest("User does not exist.");
-
-                var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, false, lockoutOnFailure: false);
-                if (result.Succeeded)
+                token = _jwt.GenerateSecurityToken(new User()
                 {
-                    return Ok(new
-                    {
-                        token = _jwt.GenerateSecurityToken(new User()
-                        {
-                            Username = user.UserName,
-                            Email = user.Email
-                        })
-                    });
-                }
-
-                if (result.IsLockedOut)
-                {
-                    return ApiBadRequest("User account locked out.");
-                }
-            }
-
-            return BadRequest(ModelState);
+                    Username = user.UserName,
+                    Email = user.Email
+                })
+            });
         }
     }
 }
