@@ -6,13 +6,13 @@ namespace API.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class RecommendationsController : ApiControllerBase
+    public class RecommendationController : ApiControllerBase
     {
-        public RecommendationsController(ApiContext context, Iserializer serializer, IErrorFormatter errorFormatter) :
+        public RecommendationController(ApiContext context, Iserializer serializer, IErrorFormatter errorFormatter) :
             base(context, serializer, errorFormatter) { }
 
         [HttpPost]
-        public ActionResult<string> GetQuizMessage()
+        public ActionResult<string> GetQuizMessage(AnsweredQuestionDTO[] questions)
         {
             if (!IsValidApiRequest())
             {
