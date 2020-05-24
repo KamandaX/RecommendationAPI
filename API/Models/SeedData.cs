@@ -1,4 +1,5 @@
 ﻿using API.Models.Seed;
+using Microsoft.AspNetCore.Identity;
 using System.Linq;
 
 namespace API.Models
@@ -6,10 +7,12 @@ namespace API.Models
     public class SeedData
     {
         private readonly ApiContext _context;
+        private readonly UserManager<UserDTO> _userManager;
 
-        public SeedData(ApiContext context)
+        public SeedData(ApiContext context, UserManager<UserDTO> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public void Seed()
@@ -25,6 +28,7 @@ namespace API.Models
             ScoreSeed.EnsureCreated(_context);
             QuestionSeed.EnsureCreated(_context);
             QuestionOptionSeed.EnsureCreated(_context);
+            UserSeed.EnsureCreated(_context, _userManager);
 
             _context.SaveChanges();
         }
