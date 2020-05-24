@@ -31,6 +31,7 @@ namespace API
         {
             services.AddSingleton<Iserializer, JsonSerializer>();
             services.AddSingleton<IErrorFormatter, JsonErrorFormatter>();
+            services.AddSingleton<IScoreService, ScoreService>();
             //services.AddDbContext<ApiContext>(opt => opt.UseInMemoryDatabase("API"));
             var builder = new MySqlConnectionStringBuilder(Configuration.GetConnectionString("DefaultConnection"))
             {
