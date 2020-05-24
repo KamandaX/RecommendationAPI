@@ -40,5 +40,22 @@ namespace API.Models
 
         [JsonProperty("price_scr")]
         public float PriceScore { get; set; }
+
+        public float GetScoreByID(int ID)
+        {
+            return ID switch
+            {
+                0 => ProcessingPowerScore,
+                1 => MainCameraScore,
+                2 => SelfieCameraScore,
+                3 => StorageScore,
+                4 => BatteryLifeScore,
+                5 => DurabilityScore,
+                6 => PopularityScore,
+                7 => ScreenSizeScore,
+                8 => PriceScore,
+                _ => 0,
+            };
+        }
     }
 }
