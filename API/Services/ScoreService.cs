@@ -1,6 +1,7 @@
 ﻿using API.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace API.Services
 {
@@ -8,10 +9,10 @@ namespace API.Services
     {
         public IDictionary<int, float> GetAspectScores(IList<QuestionOption> questionOptions)
         {
-            IDictionary<int, float> aspectScores = new Dictionary<int, float>();
-            IDictionary<int, int> aspectCounts = new Dictionary<int, int>();
+            var aspectScores = new Dictionary<int, float>();
+            var aspectCounts = new Dictionary<int, int>();
 
-            foreach (QuestionOption questionOption in questionOptions)
+            foreach (var questionOption in questionOptions)
             {
                 if (questionOption.Question == null)
                     throw new ArgumentException("Question option does not include the Question object");
@@ -38,11 +39,10 @@ namespace API.Services
         public double GetProductScore(IDictionary<int, float> aspectScores, Score weight)
         {
             if (weight == null)
-                throw new ArgumentNullException("weight", "Object instance is not set");
+                throw new ArgumentNullException(nameof(weight), "Object instance is not set");
 
-            double score = 0;
-            foreach (KeyValuePair<int, float> aspectScore in aspectScores)
-                score += aspectScore.Value * weight.GetScoreByID(aspectScore.Key);
+            double score = aspectScores.Aggregate<KeyValuePair<int, float>, double>(0, (current, aspectScore) => 
+                current + aspectScore.Value * weight.GetScoreByID(aspectScore.Key));
 
             return Math.Round(score, 2);
         }
