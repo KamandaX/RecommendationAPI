@@ -24,7 +24,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<RecommendationDTO>> GetQuizMessage(AnsweredQuestionDTO[] questions)
+        public async Task<ActionResult<RecommendationDTO>> GetRecommendation(AnsweredQuestionDTO[] questions)
         {
             if (!IsValidApiRequest())
             {
@@ -71,7 +71,7 @@ namespace API.Controllers
             }
 
             var sortedRecommendations = recommendations
-                .OrderBy(i => -i.Key)
+                .OrderByDescending(i => i.Key)
                 .ToDictionary(i => i.Key, i => i.Value)
                 .Values
                 .ToList();
