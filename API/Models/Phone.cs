@@ -69,5 +69,10 @@ namespace API.Models
         public virtual ICollection<Camera> Cameras { get; set; }
 
         public virtual Score Score { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Manufacturer} {ModelName}";
+        }
     }
 }

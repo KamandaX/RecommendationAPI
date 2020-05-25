@@ -12,7 +12,6 @@ namespace API.Models
         [Required]
         [JsonProperty("phone_id")]
         public int PhoneID { get; set; }
-        public virtual Phone Phone { get; set; }
 
         [JsonProperty("processing_power_scr")]
         public float ProcessingPowerScore { get; set; }
@@ -41,19 +40,19 @@ namespace API.Models
         [JsonProperty("price_scr")]
         public float PriceScore { get; set; }
 
-        public float GetScoreByID(int ID)
+        public float GetScoreByID(AspectType ID)
         {
             return ID switch
             {
-                0 => ProcessingPowerScore,
-                1 => MainCameraScore,
-                2 => SelfieCameraScore,
-                3 => StorageScore,
-                4 => BatteryLifeScore,
-                5 => DurabilityScore,
-                6 => PopularityScore,
-                7 => ScreenSizeScore,
-                8 => PriceScore,
+                AspectType.ProcessingPowerScore => ProcessingPowerScore,
+                AspectType.MainCameraScore => MainCameraScore,
+                AspectType.SelfieCameraScore => SelfieCameraScore,
+                AspectType.StorageScore => StorageScore,
+                AspectType.BatteryLifeScore => BatteryLifeScore,
+                AspectType.DurabilityScore => DurabilityScore,
+                AspectType.PopularityScore => PopularityScore,
+                AspectType.ScreenSizeScore => ScreenSizeScore,
+                AspectType.PriceScore => PriceScore,
                 _ => 0,
             };
         }
