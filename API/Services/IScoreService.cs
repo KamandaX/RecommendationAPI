@@ -5,7 +5,7 @@ namespace API.Services
 {
     public interface IScoreService
     {
-        IDictionary<int, float> GetAspectScores(IList<QuestionOption> questionOptions);
+        IDictionary<int, float> GetAspectScores(IList<AnsweredQuestionDTO> questionOptions);
         double GetProductScore(IDictionary<int, float> aspectScores, Score weight);
     }
 }

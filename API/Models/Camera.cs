@@ -5,7 +5,8 @@ namespace API.Models
 {
     public enum Side
     {
-        Main, Selfie
+        Main,
+        Selfie
     }
 
     public class Camera
@@ -17,7 +18,6 @@ namespace API.Models
         [Required]
         [JsonProperty("phone_id")]
         public int PhoneID { get; set; }
-        public virtual Phone Phone { get; set; }
 
         [Required]
         [JsonProperty("side")]
@@ -29,7 +29,5 @@ namespace API.Models
 
         [JsonProperty("f-number")]
         public float FNumber { get; set; }
-
-
     }
 }

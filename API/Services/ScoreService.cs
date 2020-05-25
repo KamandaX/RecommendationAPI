@@ -7,25 +7,22 @@ namespace API.Services
 {
     public class ScoreService : IScoreService
     {
-        public IDictionary<int, float> GetAspectScores(IList<QuestionOption> questionOptions)
+        public IDictionary<int, float> GetAspectScores(IList<AnsweredQuestionDTO> questionOptions)
         {
             var aspectScores = new Dictionary<int, float>();
             var aspectCounts = new Dictionary<int, int>();
 
             foreach (var questionOption in questionOptions)
             {
-                if (questionOption.Question == null)
-                    throw new ArgumentException("Question option does not include the Question object");
-
-                int aspectID = (int)questionOption.Question.Aspect;
+                int aspectID = questionOption.Aspect;
                 if (aspectScores.ContainsKey(aspectID))
                 {
-                    aspectScores[aspectID] += questionOption.QuestionMultiplier;
+                    aspectScores[aspectID] += questionOption.Multiplier;
                     aspectCounts[aspectID]++;
                 }
                 else
                 {
-                    aspectScores[aspectID] = questionOption.QuestionMultiplier;
+                    aspectScores[aspectID] = questionOption.Multiplier;
                     aspectCounts[aspectID] = 1;
                 }
             }
@@ -41,8 +38,8 @@ namespace API.Services
             if (weight == null)
                 throw new ArgumentNullException(nameof(weight), "Object instance is not set");
 
-            double score = aspectScores.Aggregate<KeyValuePair<int, float>, double>(0, (current, aspectScore) => 
-                current + aspectScore.Value * weight.GetScoreByID(aspectScore.Key));
+            double score = aspectScores.Aggregate<KeyValuePair<int, float>, double>(0, (current, aspectScore) =>
+                current + aspectScore.Value * weight.GetScoreByID((AspectType) aspectScore.Key));
 
             return Math.Round(score, 2);
         }
