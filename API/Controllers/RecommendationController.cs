@@ -68,8 +68,12 @@ namespace API.Controllers
             var recommendations = new Dictionary<double, Phone>();
             foreach (var phone in phones)
             {
-                double score = _scoreService.GetProductScore(scores, phone.Score);
-                recommendations.Add(score, phone);
+                if (phone.Score != null)
+                {
+                    double score = _scoreService.GetProductScore(scores, phone.Score);
+                    recommendations.Add(score, phone);
+                }
+
             }
 
             var sortedRecommendations = recommendations
