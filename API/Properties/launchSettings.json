@@ -24,7 +24,7 @@
       "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_IMGFALLBACKURL": "http://localhost:4200/assets/app-logo.svg"
+        "ASPNETCORE_IMGFALLBACKURL": "https://rawcdn.githack.com/KamandaX/CDN/62c5b3e523e5ad09fee5ce71d69d02c5c72d447e/mobite-logo.png"
       }
     }
   }
