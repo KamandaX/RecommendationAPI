@@ -14,7 +14,9 @@ namespace API.Controllers
     public class RecommendationController : ApiControllerBase
     {
         private readonly IScoreService _scoreService;
-        private const float ScoreThreshold = 2.5f;
+        private const float MaxPriceThreshold = 0.35f;
+        private const float MinPriceThreshold = 0.5f;
+        private const int PriceCoefficient = 1000;
 
         public RecommendationController(ApiContext context, Iserializer serializer, IErrorFormatter errorFormatter,
             IScoreService scoreService) :
@@ -33,23 +35,23 @@ namespace API.Controllers
 
             var aspectScores = _scoreService.GetAspectScores(questions);
 
-            float priceScore;
+            decimal price;
             try
             {
-                priceScore = aspectScores[(int) AspectType.PriceScore] * 10;
+                price = (decimal) (aspectScores[(int) AspectType.PriceScore] * PriceCoefficient);
             }
             catch (Exception)
             {
                 return ApiBadRequest("Price score not provided!");
             }
 
-            float minPrice = priceScore - ScoreThreshold;
-            float maxPrice = priceScore + ScoreThreshold;
+            decimal minPrice = price - price * (decimal) MinPriceThreshold;
+            decimal maxPrice = price + price * (decimal) MaxPriceThreshold;
 
             var eligiblePhones = await Context.Phones
                 .Include(i => i.Score)
                 .Include(i => i.Cameras)
-                .Where(i => i.Score.PriceScore >= minPrice && i.Score.PriceScore <= maxPrice)
+                .Where(i => i.Price >= minPrice && i.Price <= maxPrice)
                 .ToListAsync()
                 .ConfigureAwait(false);
 
